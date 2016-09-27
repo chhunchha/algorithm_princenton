@@ -1,21 +1,18 @@
 ////////////////////////////////////////
-/// Weighted Quick Union - Union Find algo
+/// Path Compression Weighted Quick Union - Union Find algo
 /// Sumant Chhunchha
-/// https://jsbin.com/mapopu/edit?js,console
+/// https://jsbin.com/xuyalit/1/edit?js,console
 ///////////////////////////////////////
 
-function WeightedQuickUnionUF(N) {
+function PathCompressionWeightedQuickUnionUF(N) {
   this.id = new Array(N);
-
-  //maintaining size array for each root
   this.size = new Array(N).fill(1);
-
   for(var i = 0; i < N; i++) {
     this.id[i] = i;
   }
 }
 
-var proto = WeightedQuickUnionUF.prototype;
+var proto = PathCompressionWeightedQuickUnionUF.prototype;
 
 proto.isConnected = function(p, q) {
   console.log(p + " connected to " + q + " " + (this.rootOf(p) == this.rootOf(q)));
@@ -29,13 +26,17 @@ chase parent pointers until reach root
 
 proto.rootOf = function(i) {
   while(i != this.id[i]) {
+    //assigning parent of root as root of this node.
+    //flattening the tree while looking for root
+    this.id[i] = this.id[this.id[i]];
     i = this.id[i];
   }
   return i;
 }
 
 /*
-Link root of smaller tree to root of larger tree
+check if p and q have same root
+(depth of p and q array accesses)
 */
 
 proto.union = function(p, q) {
@@ -55,7 +56,7 @@ proto.union = function(p, q) {
 
 //////
 
-var q = new WeightedQuickUnionUF(10);
+var q = new PathCompressionWeightedQuickUnionUF(10);
 console.log(q.id);
 
 q.union(4, 3);
