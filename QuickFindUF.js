@@ -4,6 +4,11 @@
 /// https://jsbin.com/nidufuz/edit?js,console
 ///////////////////////////////////////
 
+/*
+Union is too expensive. It takes N^2 array accesses to process a sequence of
+N union commands on N objects.
+*/
+
 'use strict';
 
 function QuickFindUF(N) {
@@ -14,11 +19,20 @@ function QuickFindUF(N) {
 }
 
 var proto = QuickFindUF.prototype;
-
+/*
+check whether p and q
+are in the same component
+(2 array accesses)
+*/
 proto.isConnected = function(p, q) {
   console.log(p + " connected to " + q + " " + (this.id[p] == this.id[q]));
   return this.id[p] == this.id[q];
 }
+
+/*
+change all entries with id[p] to id[q]
+(at most 2N + 2 array accesses)
+*/
 
 proto.union = function(p, q) {
   var pid = this.id[p];
